@@ -24,11 +24,11 @@ public class JdbcTemplatePexesoRepository implements PexesoRepository {
     }
 
     public List<GameBoard> findAll() {
-        return querySender.query("SELECT ID, Stav AS Status FROM HerniPlochy", boardConverter);
+        return querySender.query("SELECT ID, Stav FROM HerniPlochy", boardConverter);
     }
 
     public GameBoard findOne(Long id) {
-        GameBoard board = querySender.queryForObject("SELECT ID, Stav AS Status FROM HerniPlochy WHERE ID = ?", boardConverter, id);
+        GameBoard board = querySender.queryForObject("SELECT ID, Stav FROM HerniPlochy WHERE ID = ?", boardConverter, id);
         List<Card> cardset = querySender.query("SELECT ID, CisloKarty AS CardNumber, Stav AS Status FROM Karty WHERE HerniPlochaID = ?",cardConverter, id);
         board.setCardset(cardset);
         return board;
@@ -51,7 +51,7 @@ public class JdbcTemplatePexesoRepository implements PexesoRepository {
         String sql = "INSERT INTO HerniPlochy (Stav, CasPoslednihoTahu) VALUES (?, ?)";
         querySender.update((Connection con) -> {
                     PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                    statement.setString(1, board.getStatus().name());              // proč je tu getStatus().name() místo jen getStatus()?
+                    statement.setString(1, board.getStav().name());              // proč je tu getStatus().name() místo jen getStatus()?
                     statement.setObject(2, Instant.now());
                     return statement;
                 },
@@ -83,7 +83,7 @@ public class JdbcTemplatePexesoRepository implements PexesoRepository {
 
     private GameBoard updateBoard(GameBoard board) {
         querySender.update("UPDATE HerniPlochy SET Stav = ?,CasPoslednihoTahu = ? WHERE ID = ?",
-                board.getStatus().name(),     // proč je tu getStatus().name() místo jen getStatus()?
+                board.getStav().name(),     // proč je tu getStatus().name() místo jen getStatus()?
                 Instant.now(),
                 board.getId());
 

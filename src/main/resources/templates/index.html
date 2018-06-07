@@ -13,16 +13,21 @@
 <body>
     <header>
         <div class="header">
-            <h1><a href="index.html">Pexeso</a></h1>
+            <h1><a href="index.html" th:href=".">Pexeso</a></h1>
         </div>
     </header>
 
     <main>
         <p>
-            <a href="table.html" th:href="${'newtable.html'}">Začít novou hru</a>
+            <a href="table.html" th:href="${'newtable.html'}">Začít novou hru</a> (verze s databází)
         </p>
         <p>
             <a href="game-list.html">Seznam her</a>
+        </p>
+
+        <p>
+            <br>
+            <a href="https://deli.tomcat.cloud/ukol10quick/newtable.html">Začít novou hru</a><br> (rychleji běžící verze - bez ukládání do databáze)
         </p>
     </main>
 
@@ -31,6 +36,6 @@
             <p>Obrázky na pexeso: <a href="http://www.sarna.net/wiki/Main_Page" target="blank">BattleTechWiki</a>. Copyright: FASA, a potom spousta dalších.</p>
         </div>
     </footer>
-    
+
 </body>
 </html>

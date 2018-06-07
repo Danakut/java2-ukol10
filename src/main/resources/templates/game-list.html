@@ -13,7 +13,7 @@
 <body>
     <header>
         <div class="header">
-            <h1><a href="index.html">Pexeso</a></h1>
+            <h1><a href="index.html" th:href=".">Pexeso</a></h1>
         </div>
     </header>
 
@@ -29,37 +29,15 @@
             </tr>
             <tr th:each="game : ${listOfAllGames}">
                 <td th:text="${game.id}">111111111</td>
-                <td th:text="${game.status}">GAME_STATUS</td>
+                <td th:text="${game.stav}">GAME_STATUS</td>
                 <td>
-                    <form method="post" th:if="${game.status == T(cz.czechitas.webapp.entity.GameStatus).GAME_FINISHED}"
+                    <form method="post" th:if="${game.stav == T(cz.czechitas.webapp.entity.StavHry).KONEC}"
                     th:action="${'delete/' + game.id + '.html'}">
                         <button><span class="gamelist_button">Smazat hru</span></button>
                     </form>
                 </td>
             </tr>
         </table>
-        <!--<div th:if="${currentBoard.status == T(cz.czechitas.webapp.entity.GameStatus).GAME_FINISHED}" class="konec">-->
-            <!--<h2>konec hry</h2>-->
-            <!--<p><a th:href="." href="table.html">začít novou hru</a></p>-->
-        <!--</div>-->
-
-        <!--<form method="post">-->
-            <!--<div class="container">-->
-                <!--<th:block th:each="card : ${currentBoard.cardset}" style="display: none;">-->
-                    <!--<input class="card" type="image"-->
-                           <!--th:if="${card.status == T(cz.czechitas.webapp.entity.CardStatus).FACE}"-->
-                           <!--th:src="${'images/' + card.filepath}"-->
-                           <!--th:name="${'clickedCard' + card.cardNumber}"/>-->
-                    <!--<input class="card" type="image"-->
-                           <!--th:if="${card.status == T(cz.czechitas.webapp.entity.CardStatus).BACK}"-->
-                           <!--th:src="${'images/rub.png'}"-->
-                           <!--th:name="${'clickedCard' + card.cardNumber}"/>-->
-                    <!--<img class="taken"-->
-                         <!--th:if="${card.status == T(cz.czechitas.webapp.entity.CardStatus).TAKEN}"-->
-                         <!--th:src="${'images/empty.png'}" />-->
-                <!--</th:block>-->
-            <!--</div>-->
-        <!--</form>-->
     </main>
 
     <footer>

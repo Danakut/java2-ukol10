@@ -7,7 +7,7 @@ import cz.czechitas.webapp.persistence.*;
 public class PexesoService {
     
 
-    public final int CARD_PAIR_SUM = 1;
+    public final int CARD_PAIR_SUM = 32;
 
     private PexesoRepository gameProvider;
 
@@ -20,7 +20,7 @@ public class PexesoService {
     }
 
     public GameBoard createBoard() {
-        GameBoard board = new GameBoard(createCardset(), GameStatus.PLAYER1_CHOOSE_1ST_CARD);
+        GameBoard board = new GameBoard(createCardset(), StavHry.HRAC1_VYBER_PRVNI_KARTY);
         gameProvider.save(board);
         return board;
     }
@@ -37,19 +37,19 @@ public class PexesoService {
         GameBoard board = gameProvider.findOne(boardId);
         Card chosenCard = board.findCard(clickedCardNumber);
 
-        if (board.getStatus() == GameStatus.PLAYER1_CHOOSE_1ST_CARD) {
+        if (board.getStav() == StavHry.HRAC1_VYBER_PRVNI_KARTY) {
             if (chosenCard.getStatus() == CardStatus.BACK) {
                 chosenCard.setStatus(CardStatus.FACE);
-                board.setStatus(GameStatus.PLAYER1_CHOOSE_2ND_CARD);
+                board.setStav(StavHry.HRAC1_VYBER_DRUHE_KARTY);
             }
 
-        } else if (board.getStatus() == GameStatus.PLAYER1_CHOOSE_2ND_CARD)  {
+        } else if (board.getStav() == StavHry.HRAC1_VYBER_DRUHE_KARTY)  {
             if (chosenCard.getStatus() == CardStatus.BACK) {
                 chosenCard.setStatus(CardStatus.FACE);
-                board.setStatus(GameStatus.PLAYER1_EVALUATION);
+                board.setStav(StavHry.HRAC1_ZOBRAZENI_VYHODNOCENI);
             }
 
-        } else if (board.getStatus() == GameStatus.PLAYER1_EVALUATION) {
+        } else if (board.getStav() == StavHry.HRAC1_ZOBRAZENI_VYHODNOCENI) {
             ArrayList<Card> turnedCards = new ArrayList<>();
             int cardsTaken = 0;
             for (Card card : board.getCardset()) {
@@ -73,9 +73,9 @@ public class PexesoService {
             }
 
             if (cardsTaken/2 == CARD_PAIR_SUM) {
-                board.setStatus(GameStatus.GAME_FINISHED);
+                board.setStav(StavHry.KONEC);
             } else {
-                board.setStatus(GameStatus.PLAYER1_CHOOSE_1ST_CARD);
+                board.setStav(StavHry.HRAC1_VYBER_PRVNI_KARTY);
             }
         }
 

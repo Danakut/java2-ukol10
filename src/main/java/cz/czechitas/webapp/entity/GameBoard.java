@@ -5,13 +5,13 @@ import java.util.*;
 public class GameBoard {
 
     private Long id;
-    private GameStatus status;
+    private StavHry status;
     private List<Card> cardset;
 
     public GameBoard() {
     }
 
-    public GameBoard(List<Card> cardset, GameStatus status) {
+    public GameBoard(List<Card> cardset, StavHry status) {
         this.cardset = cardset;
         this.status = status;
     }
@@ -24,11 +24,11 @@ public class GameBoard {
         this.id = newValue;
     }
 
-    public GameStatus getStatus() {
+    public StavHry getStav() {
         return status;
     }
 
-    public void setStatus(GameStatus status) {
+    public void setStav(StavHry status) {
         this.status = status;
     }
 
