@@ -16,6 +16,7 @@ public class JdbcTemplatePexesoRepository implements PexesoRepository {
     private JdbcTemplate querySender;
     private RowMapper<Gameboard> boardConverter;
     private RowMapper<Card> cardConverter;
+    private Random idGenerator = new Random();
 
     public JdbcTemplatePexesoRepository(DataSource dataSource) {
         querySender = new JdbcTemplate(dataSource);
@@ -47,23 +48,26 @@ public class JdbcTemplatePexesoRepository implements PexesoRepository {
     }
     
     private Gameboard setupNewBoard(Gameboard board) {
-        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
-        String sql = "INSERT INTO gameboards (status, lastTurnStamp) VALUES (?, ?)";
-        querySender.update((Connection con) -> {
-                    PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                    statement.setString(1, board.getStatus().name());              // proč je tu getStatus().name() místo jen getStatus()?
-                    statement.setObject(2, Instant.now());
-                    return statement;
-                },
-                keyHolder);
-        board.setId(keyHolder.getKey().longValue());
-        
+        String insertion = "INSERT INTO gameboards (id, status, lastTurnStamp) VALUES (?, ?, ?)";
+        List<Long> idValuesInUse = querySender.queryForList("SELECT id FROM gameboards", Long.class);
+        Long boardId = generateBoardId(idValuesInUse);
+        querySender.update(insertion, boardId, GameStatus.PLAYER1_SELECT_1ST_CARD.name(), Instant.now());
+        board.setId(boardId);
+
         List<Card> cardset = board.getCardset();
         for (int i = 0; i < cardset.size(); i++) {
             Card card = cardset.get(i);
             addCard(card, board.getId(), i);
         }
         return board;
+    }
+
+    private Long generateBoardId(List<Long> valuesInUse) {
+        Long generatedNumber;
+        do {
+            generatedNumber = (long)Math.abs(idGenerator.nextInt());
+        } while (valuesInUse.contains(generatedNumber));
+        return generatedNumber;
     }
 
     private void addCard(Card card, Long boardId, int cardArrayIndex) {

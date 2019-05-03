@@ -7,7 +7,7 @@ CREATE DATABASE pexeso
 USE pexeso;
 
 CREATE TABLE gameboards (
-  id INT PRIMARY KEY AUTO_INCREMENT,
+  id INT PRIMARY KEY NOT NULL,
   status VARCHAR(250),
   lastTurnStamp TIMESTAMP DEFAULT now() NOT NULL
 );

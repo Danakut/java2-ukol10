@@ -47,7 +47,7 @@ public class MainController {
 
     @RequestMapping(value = "/table.html", method = RequestMethod.POST)
     public String processTable(@RequestParam("id") Long boardId, @RequestParam Map<String, String> allParams) {
-        int clickedCardNumber = findClickedCardNumber(allParams.keySet());           //proč se převádí mapa na Set?
+        int clickedCardNumber = findClickedCardNumber(allParams.keySet());
         if (clickedCardNumber != -1) {
             pexesoService.makeMove(boardId, clickedCardNumber);
         }
