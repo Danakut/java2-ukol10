@@ -2,16 +2,16 @@ package cz.czechitas.webapp.entity;
 
 import java.util.*;
 
-public class GameBoard {
+public class Gameboard {
 
     private Long id;
-    private StavHry status;
+    private GameStatus status;
     private List<Card> cardset;
 
-    public GameBoard() {
+    public Gameboard() {
     }
 
-    public GameBoard(List<Card> cardset, StavHry status) {
+    public Gameboard(List<Card> cardset, GameStatus status) {
         this.cardset = cardset;
         this.status = status;
     }
@@ -24,11 +24,11 @@ public class GameBoard {
         this.id = newValue;
     }
 
-    public StavHry getStav() {
+    public GameStatus getStatus() {
         return status;
     }
 
-    public void setStav(StavHry status) {
+    public void setStatus(GameStatus status) {
         this.status = status;
     }
 

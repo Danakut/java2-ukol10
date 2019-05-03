@@ -5,9 +5,9 @@ import cz.czechitas.webapp.entity.*;
 
 public interface PexesoRepository {
 
-    public List<GameBoard> findAll();
-    public GameBoard findOne(Long id);
-    public GameBoard save(GameBoard board);
+    public List<Gameboard> findAll();
+    public Gameboard findOne(Long id);
+    public Gameboard save(Gameboard board);
     public void delete(Long id);
 
 }

@@ -25,7 +25,7 @@ public class MainController {
 
     @RequestMapping ("/game-list.html")
     public ModelAndView showGameList() {
-        List<GameBoard> gameList = pexesoService.findAllBoards();
+        List<Gameboard> gameList = pexesoService.findAllBoards();
         ModelAndView moavi = new ModelAndView("game-list");
         moavi.addObject("listOfAllGames", gameList);
         return moavi;
@@ -33,13 +33,13 @@ public class MainController {
 
     @RequestMapping(value = "/newtable.html")
     public String showNewTable() {
-        GameBoard board = pexesoService.createBoard();
+        Gameboard board = pexesoService.createBoard();
         return "redirect:/table.html?id=" + board.getId();
     }
 
     @RequestMapping(value = "/table.html", method = RequestMethod.GET)
     public ModelAndView showTable(@RequestParam("id") Long boardId) {
-        GameBoard board = pexesoService.findBoard(boardId);
+        Gameboard board = pexesoService.findBoard(boardId);
         ModelAndView moavi = new ModelAndView("table");
         moavi.addObject("currentBoard", board);
         return moavi;

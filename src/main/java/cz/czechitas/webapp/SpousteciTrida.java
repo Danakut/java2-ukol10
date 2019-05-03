@@ -82,9 +82,9 @@ public class SpousteciTrida extends SpringBootServletInitializer {
     public DataSource zdrojDat() {
         try {
             MariaDbDataSource dataSource = new MariaDbDataSource();
-            dataSource.setUserName("student");
-            dataSource.setPassword("password");
-            dataSource.setUrl("jdbc:mysql://localhost:3306/Pexeso");
+            dataSource.setUserName("pexesouser");
+            dataSource.setPassword("pexuspass");
+            dataSource.setUrl("jdbc:mariadb://localhost:3306/pexeso");
             return dataSource;
         } catch (SQLException e) {
             throw new RuntimeException("Nepodarilo se pripojit do databaze: " + e.getMessage(), e);

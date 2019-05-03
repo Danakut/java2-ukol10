@@ -4,7 +4,7 @@ import java.sql.*;
 import java.time.*;
 import java.util.*;
 import javax.sql.*;
-import org.mariadb.jdbc.*;
+
 import org.springframework.jdbc.core.*;
 import org.springframework.jdbc.support.*;
 import org.springframework.stereotype.*;
@@ -14,27 +14,27 @@ import cz.czechitas.webapp.entity.*;
 public class JdbcTemplatePexesoRepository implements PexesoRepository {
 
     private JdbcTemplate querySender;
-    private RowMapper<GameBoard> boardConverter;
+    private RowMapper<Gameboard> boardConverter;
     private RowMapper<Card> cardConverter;
 
     public JdbcTemplatePexesoRepository(DataSource dataSource) {
         querySender = new JdbcTemplate(dataSource);
-        boardConverter = BeanPropertyRowMapper.newInstance(GameBoard.class);
+        boardConverter = BeanPropertyRowMapper.newInstance(Gameboard.class);
         cardConverter = BeanPropertyRowMapper.newInstance(Card.class);
     }
 
-    public List<GameBoard> findAll() {
-        return querySender.query("SELECT ID, Stav FROM HerniPlochy", boardConverter);
+    public List<Gameboard> findAll() {
+        return querySender.query("SELECT id, status FROM gameboards", boardConverter);
     }
 
-    public GameBoard findOne(Long id) {
-        GameBoard board = querySender.queryForObject("SELECT ID, Stav FROM HerniPlochy WHERE ID = ?", boardConverter, id);
-        List<Card> cardset = querySender.query("SELECT ID, CisloKarty AS CardNumber, Stav AS Status FROM Karty WHERE HerniPlochaID = ?",cardConverter, id);
+    public Gameboard findOne(Long id) {
+        Gameboard board = querySender.queryForObject("SELECT id, status FROM gameboards WHERE id = ?", boardConverter, id);
+        List<Card> cardset = querySender.query("SELECT id, cardNumber, status FROM cards WHERE gameboardId= ?",cardConverter, id);
         board.setCardset(cardset);
         return board;
     }
 
-    public GameBoard save(GameBoard board) {
+    public Gameboard save(Gameboard board) {
         if (board.getId() == null) {
             setupNewBoard(board);
         }
@@ -46,12 +46,12 @@ public class JdbcTemplatePexesoRepository implements PexesoRepository {
 
     }
     
-    private GameBoard setupNewBoard(GameBoard board) {
+    private Gameboard setupNewBoard(Gameboard board) {
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
-        String sql = "INSERT INTO HerniPlochy (Stav, CasPoslednihoTahu) VALUES (?, ?)";
+        String sql = "INSERT INTO gameboards (status, lastTurnStamp) VALUES (?, ?)";
         querySender.update((Connection con) -> {
                     PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                    statement.setString(1, board.getStav().name());              // proč je tu getStatus().name() místo jen getStatus()?
+                    statement.setString(1, board.getStatus().name());              // proč je tu getStatus().name() místo jen getStatus()?
                     statement.setObject(2, Instant.now());
                     return statement;
                 },
@@ -68,7 +68,7 @@ public class JdbcTemplatePexesoRepository implements PexesoRepository {
 
     private void addCard(Card card, Long boardId, int cardArrayIndex) {
         GeneratedKeyHolder cardKeyHolder = new GeneratedKeyHolder();
-        String sql = "INSERT INTO Karty (Cislokarty, Stav, HerniPlochaID, PoradiKarty) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO cards (cardNumber, status, gameboardId, cardOrder) VALUES (?, ?, ?, ?)";
         querySender.update((Connection con) -> {
                     PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                     statement.setInt(1, card.getCardNumber());
@@ -81,16 +81,16 @@ public class JdbcTemplatePexesoRepository implements PexesoRepository {
         card.setId(cardKeyHolder.getKey().longValue());
     }
 
-    private GameBoard updateBoard(GameBoard board) {
-        querySender.update("UPDATE HerniPlochy SET Stav = ?,CasPoslednihoTahu = ? WHERE ID = ?",
-                board.getStav().name(),     // proč je tu getStatus().name() místo jen getStatus()?
+    private Gameboard updateBoard(Gameboard board) {
+        querySender.update("UPDATE gameboards SET status = ?, lastTurnStamp = ? WHERE id = ?",
+                board.getStatus().name(),
                 Instant.now(),
                 board.getId());
 
         List<Card> cardset = board.getCardset();
         for (int i = 0; i < cardset.size(); i++) {
             Card card = cardset.get(i);
-            querySender.update("UPDATE Karty SET Stav = ?, PoradiKarty = ? WHERE ID = ?",
+            querySender.update("UPDATE cards SET status = ?, cardOrder = ? WHERE id = ?",
                     card.getStatus().name(),
                     i,
                     card.getId());

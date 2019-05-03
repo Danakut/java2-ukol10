@@ -7,7 +7,7 @@ import cz.czechitas.webapp.persistence.*;
 public class PexesoService {
     
 
-    public final int CARD_PAIR_SUM = 32;
+    private final int CARD_PAIR_SUM = 32;
 
     private PexesoRepository gameProvider;
 
@@ -15,17 +15,17 @@ public class PexesoService {
         this.gameProvider = gameProvider;
     }
 
-    public List<GameBoard> findAllBoards() {
+    public List<Gameboard> findAllBoards() {
         return gameProvider.findAll();
     }
 
-    public GameBoard createBoard() {
-        GameBoard board = new GameBoard(createCardset(), StavHry.HRAC1_VYBER_PRVNI_KARTY);
+    public Gameboard createBoard() {
+        Gameboard board = new Gameboard(createCardset(), GameStatus.PLAYER1_SELECT_1ST_CARD);
         gameProvider.save(board);
         return board;
     }
 
-    public GameBoard findBoard(Long id) {
+    public Gameboard findBoard(Long id) {
         return gameProvider.findOne(id);
     }
 
@@ -34,22 +34,22 @@ public class PexesoService {
     }
 
     public void makeMove(Long boardId, int clickedCardNumber) {
-        GameBoard board = gameProvider.findOne(boardId);
+        Gameboard board = gameProvider.findOne(boardId);
         Card chosenCard = board.findCard(clickedCardNumber);
 
-        if (board.getStav() == StavHry.HRAC1_VYBER_PRVNI_KARTY) {
+        if (board.getStatus() == GameStatus.PLAYER1_SELECT_1ST_CARD) {
             if (chosenCard.getStatus() == CardStatus.BACK) {
                 chosenCard.setStatus(CardStatus.FACE);
-                board.setStav(StavHry.HRAC1_VYBER_DRUHE_KARTY);
+                board.setStatus(GameStatus.PLAYER1_SELECT_2ND_CARD);
             }
 
-        } else if (board.getStav() == StavHry.HRAC1_VYBER_DRUHE_KARTY)  {
+        } else if (board.getStatus() == GameStatus.PLAYER1_SELECT_2ND_CARD)  {
             if (chosenCard.getStatus() == CardStatus.BACK) {
                 chosenCard.setStatus(CardStatus.FACE);
-                board.setStav(StavHry.HRAC1_ZOBRAZENI_VYHODNOCENI);
+                board.setStatus(GameStatus.PLAYER1_EVALUATE);
             }
 
-        } else if (board.getStav() == StavHry.HRAC1_ZOBRAZENI_VYHODNOCENI) {
+        } else if (board.getStatus() == GameStatus.PLAYER1_EVALUATE) {
             ArrayList<Card> turnedCards = new ArrayList<>();
             int cardsTaken = 0;
             for (Card card : board.getCardset()) {
@@ -73,9 +73,9 @@ public class PexesoService {
             }
 
             if (cardsTaken/2 == CARD_PAIR_SUM) {
-                board.setStav(StavHry.KONEC);
+                board.setStatus(GameStatus.GAME_FINISHED);
             } else {
-                board.setStav(StavHry.HRAC1_VYBER_PRVNI_KARTY);
+                board.setStatus(GameStatus.PLAYER1_SELECT_1ST_CARD);
             }
         }
 

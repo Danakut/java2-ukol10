@@ -1,25 +1,25 @@
 package cz.czechitas.webapp.persistence;
 
 import java.util.*;
-import org.springframework.stereotype.*;
+
 import cz.czechitas.webapp.entity.*;
 
 //@Component
 public class InMemoryPexesoRepository implements PexesoRepository {
 
     private Random random;
-    private Map<Long, GameBoard> gameBoardMap;
+    private Map<Long, Gameboard> gameBoardMap;
 
     public InMemoryPexesoRepository() {
         random = new Random();
         gameBoardMap = new HashMap<>();
     }
 
-    public List<GameBoard> findAll() {
+    public List<Gameboard> findAll() {
         Set<Long> idSet = gameBoardMap.keySet();
         List<Long> idList = new ArrayList<>();
         idSet.forEach(id -> idList.add(id));
-        List<GameBoard> gameList = new ArrayList<>();
+        List<Gameboard> gameList = new ArrayList<>();
         for (int i = 0; i < idList.size(); i++) {
             Long boardId = idList.get(i);
             gameList.add(gameBoardMap.get(boardId));
@@ -27,15 +27,15 @@ public class InMemoryPexesoRepository implements PexesoRepository {
         return gameList;
     }
 
-    public GameBoard findOne(Long id) {
-        GameBoard board = gameBoardMap.get(id);
+    public Gameboard findOne(Long id) {
+        Gameboard board = gameBoardMap.get(id);
         if (board == null) {
             throw new GameNotFoundException();
         }
         return board;
     }
 
-    public GameBoard save(GameBoard board) {
+    public Gameboard save(Gameboard board) {
         if (board.getId() == null) {
             setupNewBoard(board);
         }
@@ -51,7 +51,7 @@ public class InMemoryPexesoRepository implements PexesoRepository {
         return (long)Math.abs(random.nextInt());
     }
 
-    private GameBoard setupNewBoard(GameBoard board) {
+    private Gameboard setupNewBoard(Gameboard board) {
         board.setId(vygenerujNahodneId());        //doplnit podminku, ktera vylouci, ze nahodne cislo bude id hry, ktera uz je v "databazi" (gameBoardMap)?
         for (Card card : board.getCardset()) {
             card.setId(vygenerujNahodneId());

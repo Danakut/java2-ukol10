@@ -27,13 +27,13 @@
             </tr>
             <tr th:each="game : ${listOfAllGames}">
                 <td th:text="${game.id}">111111111</td>
-                <td th:text="${game.stav}">GAME_STATUS</td>
+                <td th:text="${game.status}">GAME_STATUS</td>
                 <td>
-                    <form method="post" th:if="${game.stav == T(cz.czechitas.webapp.entity.StavHry).KONEC}"
+                    <form method="post" th:if="${game.status == T(cz.czechitas.webapp.entity.GameStatus).GAME_FINISHED}"
                     th:action="${'delete/' + game.id + '.html'}">
                         <button><span class="gamelist_button">Smazat hru</span></button>
                     </form>
-                    <span th:if="${game.stav != T(cz.czechitas.webapp.entity.StavHry).KONEC}">hra probíhá</span>
+                    <span th:if="${game.status != T(cz.czechitas.webapp.entity.GameStatus).GAME_FINISHED}">hra probíhá</span>
                 </td>
             </tr>
         </table>
