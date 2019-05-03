@@ -18,9 +18,7 @@
     </header>
 
     <main>
-        <p>
-            <a href="table.html" th:href="${'newtable.html'}">Začít novou hru</a>
-        </p>
+
         <table>
             <tr>
                 <th>ID</th>
@@ -35,6 +33,7 @@
                     th:action="${'delete/' + game.id + '.html'}">
                         <button><span class="gamelist_button">Smazat hru</span></button>
                     </form>
+                    <span th:if="${game.stav != T(cz.czechitas.webapp.entity.StavHry).KONEC}">hra probíhá</span>
                 </td>
             </tr>
         </table>

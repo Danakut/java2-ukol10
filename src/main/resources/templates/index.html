@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../static/css/style.css" th:href="${'css/style.css'}" type="text/css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto&amp;subset=latin-ext" rel="stylesheet">
-    <title>Ukol10 - pexeso (funkční)</title>
+    <title>Úkol10 - pexeso (bez databáze)</title>
 </head>
 <body>
     <header>
@@ -19,16 +19,24 @@
 
     <main>
         <p>
-            <a href="table.html" th:href="${'newtable.html'}">Začít novou hru</a> (verze s databází)
+            <a href="table.html" th:href="${'newtable.html'}">Začít novou hru</a>
         </p>
+
+        <div class="tip">
+            Tip z r. 2019: Pokud se vám hrací plocha nevejde na monitor, upravte zvětšení stránky v prohlížeči (na méně než 100 % - dle potřeby tak, aby se hrací pole 8x8 vešlo celé najednou na obrazovku)
+        </div>
+
         <p>
-            <a href="game-list.html">Seznam her</a>
+            <a href="game-list.html">Seznam rozehraných her</a>
         </p>
 
         <p>
             <br>
-            <a href="https://deli.tomcat.cloud/ukol10quick/newtable.html">Začít novou hru</a><br> (rychleji běžící verze - bez ukládání do databáze)
+            <a href="https://deli.tomcat.cloud/ukol10">Začít novou hru</a> (verze s databází)
         </p>
+
+
+
     </main>
 
     <footer>
@@ -36,6 +44,6 @@
             <p>Obrázky na pexeso: <a href="http://www.sarna.net/wiki/Main_Page" target="blank">BattleTechWiki</a>. Copyright: FASA, a potom spousta dalších.</p>
         </div>
     </footer>
-
+    
 </body>
 </html>

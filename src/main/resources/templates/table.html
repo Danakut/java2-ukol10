@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../static/css/style.css" th:href="${'css/style.css'}" type="text/css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto&amp;subset=latin-ext" rel="stylesheet">
-    <title>Ukol10 - pexeso (funkční)</title>
+    <title>Ukol10 - pexeso (bez databáze)</title>
 </head>
 <body>
     <header>
@@ -22,9 +22,6 @@
             <h2>konec hry</h2>
             <p>
                 <a th:href="newtable.html" href="table.html">Začít novou hru</a>
-            </p>
-            <p>
-                <a href="game-list.html">Seznam her</a>
             </p>
         </div>
 
@@ -47,9 +44,6 @@
         </form>
         <p>
             <a href="table.html" th:href="${'newtable.html'}">Začít novou hru</a>
-        </p>
-        <p>
-            <a class="main_odkaz" href="game-list.html">Seznam her</a>
         </p>
     </main>
 
