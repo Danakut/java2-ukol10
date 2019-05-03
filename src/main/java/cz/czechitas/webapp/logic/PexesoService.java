@@ -35,7 +35,8 @@ public class PexesoService {
 
     public void makeMove(Long boardId, int clickedCardNumber) {
         Gameboard board = gameProvider.findOne(boardId);
-        Card chosenCard = board.findCard(clickedCardNumber);
+//        Card chosenCard = board.findCard(clickedCardNumber);
+        Card chosenCard = board.getCardset().get(clickedCardNumber);
 
         if (board.getStatus() == GameStatus.PLAYER1_SELECT_1ST_CARD) {
             if (chosenCard.getStatus() == CardStatus.BACK) {

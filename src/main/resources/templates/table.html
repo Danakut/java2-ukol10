@@ -31,11 +31,11 @@
                     <input class="card" type="image"
                            th:if="${card.status == T(cz.czechitas.webapp.entity.CardStatus).FACE}"
                            th:src="${'images/' + card.filepath}"
-                           th:name="${'clickedCard' + card.cardNumber}"/>
+                           th:name="${'clickedCard' + cardStat.index}"/>
                     <input class="card" type="image"
                            th:if="${card.status == T(cz.czechitas.webapp.entity.CardStatus).BACK}"
                            th:src="${'images/back.jpg'}"
-                           th:name="${'clickedCard' + card.cardNumber}"/>
+                           th:name="${'clickedCard' + cardStat.index}"/>
                     <img class="taken"
                          th:if="${card.status == T(cz.czechitas.webapp.entity.CardStatus).TAKEN}"
                          th:src="${'images/empty.png'}" />
