@@ -92,12 +92,21 @@ public class JdbcTemplatePexesoRepository implements PexesoRepository {
                 board.getId());
 
         List<Card> cardset = board.getCardset();
-        for (int i = 0; i < cardset.size(); i++) {
-            Card card = cardset.get(i);
-            querySender.update("UPDATE cards SET status = ? WHERE id = ?",
-                    card.getStatus().name(),
-                    card.getId());
-        }
+
+        String updateString = "UPDATE cards SET status = ? WHERE id = ?";
+        querySender.batchUpdate(updateString, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                ps.setString(1, cardset.get(i).getStatus().name());
+                ps.setLong(2, cardset.get(i).getId());
+            }
+
+            @Override
+            public int getBatchSize() {
+                return cardset.size();
+            }
+        });
+
         return board;
     }
 }

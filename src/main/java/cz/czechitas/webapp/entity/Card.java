@@ -79,5 +79,9 @@ public class Card {
     public String getFilepath() {
         return FILENAMES.get(cardNumber);
     }
+
+    public String toString() {
+        return "Card" + cardNumber + " - " + status;
+    }
 }
 

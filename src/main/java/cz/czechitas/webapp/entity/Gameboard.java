@@ -39,5 +39,19 @@ public class Gameboard {
     public void setCardset(List<Card> newValue) {
         cardset = newValue;
     }
+
+    public String cardsetToString() {
+        String allCardStrings = "";
+        int order = 0;
+        for (Card card : this.cardset) {
+            allCardStrings += order + ": " + card.toString() + "; ";
+            order++;
+        }
+        return allCardStrings;
+    }
+
+    public String toString() {
+        return "Game " + id + ": " + status + "\n" + cardsetToString();
+    }
 }
 
