@@ -39,12 +39,5 @@ public class Gameboard {
     public void setCardset(List<Card> newValue) {
         cardset = newValue;
     }
-
-    public Card findCard(int cardNumber) {
-        for (Card card : cardset) {
-            if (card.getCardNumber() == cardNumber) return card;
-        }
-        throw new IllegalArgumentException("Card " + cardNumber + " not found.");
-    }
 }
 

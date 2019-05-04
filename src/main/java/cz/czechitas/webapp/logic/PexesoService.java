@@ -35,7 +35,6 @@ public class PexesoService {
 
     public void makeMove(Long boardId, int clickedCardNumber) {
         Gameboard board = gameProvider.findOne(boardId);
-//        Card chosenCard = board.findCard(clickedCardNumber);
         Card chosenCard = board.getCardset().get(clickedCardNumber);
 
         if (board.getStatus() == GameStatus.PLAYER1_SELECT_1ST_CARD) {
@@ -51,7 +50,7 @@ public class PexesoService {
             }
 
         } else if (board.getStatus() == GameStatus.PLAYER1_EVALUATE) {
-            ArrayList<Card> turnedCards = new ArrayList<>();
+            ArrayList<Card> turnedCards = new ArrayList<>(2);
             int cardsTaken = 0;
             for (Card card : board.getCardset()) {
                 if (card.getStatus() == CardStatus.FACE) {
@@ -64,7 +63,7 @@ public class PexesoService {
 
             Card card1 = turnedCards.get(0);
             Card card2 = turnedCards.get(1);
-            if (card1.getFilepath().equals(card2.getFilepath())) {
+            if (card1.getCardNumber() == card2.getCardNumber()) {
                 card1.setStatus(CardStatus.TAKEN);
                 card2.setStatus(CardStatus.TAKEN);
                 cardsTaken +=2;
@@ -85,9 +84,10 @@ public class PexesoService {
 
     private List<Card> createCardset() {
         List<Card> cardset = new ArrayList<>();
-        for (int cardNumber = 0; cardNumber < CARD_PAIR_SUM * 2; cardNumber++) {
-            Card card = new Card(cardNumber, CardStatus.BACK);
-            cardset.add(card);
+
+        for (int cardNumber = 0; cardNumber < CARD_PAIR_SUM; cardNumber++) {
+            cardset.add(new Card(cardNumber, CardStatus.BACK));
+            cardset.add(new Card(cardNumber, CardStatus.BACK));
         }
         Collections.shuffle(cardset);
         return cardset;

@@ -94,9 +94,8 @@ public class JdbcTemplatePexesoRepository implements PexesoRepository {
         List<Card> cardset = board.getCardset();
         for (int i = 0; i < cardset.size(); i++) {
             Card card = cardset.get(i);
-            querySender.update("UPDATE cards SET status = ?, cardOrder = ? WHERE id = ?",
+            querySender.update("UPDATE cards SET status = ? WHERE id = ?",
                     card.getStatus().name(),
-                    i,
                     card.getId());
         }
         return board;
