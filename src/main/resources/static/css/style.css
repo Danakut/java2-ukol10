@@ -76,6 +76,12 @@ div.container {
     height: 100%;
 }
 
+footer {
+    position: absolute;
+    width: 100vw;
+    bottom: 0;
+}
+
 .footer {
     position:relative;
     width: 100%;
@@ -120,4 +126,13 @@ td {
 .gamelist_button {
     font-family: BTLogo, sans-serif;
     color: #3A3A3A;
+}
+
+.tip {
+    max-width: 600px;
+    margin: 3rem auto;
+    padding: 1rem;
+    line-height: 1.4;
+    color: #3A3A3A;;
+    background: rgba(164, 194, 162, 0.7);
 }
