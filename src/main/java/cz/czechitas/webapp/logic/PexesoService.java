@@ -56,7 +56,7 @@ public class PexesoService {
         gameProvider.delete(id);
     }
 
-    public void makeMove(Long boardId, int clickedCardNumber) {
+    public synchronized void makeMove(Long boardId, int clickedCardNumber) {
         Gameboard board = gameProvider.findOne(boardId);
         appLogger.info(board.toString());
         Card chosenCard = board.getCardset().get(clickedCardNumber);
@@ -111,8 +111,8 @@ public class PexesoService {
             }
         }
 
-        Long savedGameid = gameProvider.save(board).getId();
-        appLogger.info("Game " + savedGameid.toString() + " saved to db.");
+        gameProvider.save(board);
+        appLogger.info("Game saved to db.");
     }
 
     private List<Card> createCardset() {
