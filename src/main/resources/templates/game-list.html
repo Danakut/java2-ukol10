@@ -11,39 +11,42 @@
     <title>Ukol10 - pexeso (funkční)</title>
 </head>
 <body>
-    <header>
-        <div class="header">
-            <h1><a href="index.html" th:href=".">Pexeso</a></h1>
+    <div class="page">
+        <div class="non_footer">
+            <header>
+                <div class="header">
+                    <h1><a href="index.html" th:href=".">Pexeso</a></h1>
+                </div>
+            </header>
+
+            <main>
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Stav </th>
+                        <th>Administrace</th>
+                    </tr>
+                    <tr th:each="game : ${listOfAllGames}">
+                        <td th:text="${game.id}">111111111</td>
+                        <td th:text="${game.status}">GAME_STATUS</td>
+                        <td>
+                            <form method="post" th:if="${game.status == T(cz.czechitas.webapp.entity.GameStatus).GAME_FINISHED}"
+                            th:action="${'delete/' + game.id + '.html'}">
+                                <button><span class="gamelist_button">Smazat hru</span></button>
+                            </form>
+                            <span th:if="${game.status != T(cz.czechitas.webapp.entity.GameStatus).GAME_FINISHED}">hra probíhá</span>
+                        </td>
+                    </tr>
+                </table>
+            </main>
         </div>
-    </header>
 
-    <main>
-
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Stav </th>
-                <th>Administrace</th>
-            </tr>
-            <tr th:each="game : ${listOfAllGames}">
-                <td th:text="${game.id}">111111111</td>
-                <td th:text="${game.status}">GAME_STATUS</td>
-                <td>
-                    <form method="post" th:if="${game.status == T(cz.czechitas.webapp.entity.GameStatus).GAME_FINISHED}"
-                    th:action="${'delete/' + game.id + '.html'}">
-                        <button><span class="gamelist_button">Smazat hru</span></button>
-                    </form>
-                    <span th:if="${game.status != T(cz.czechitas.webapp.entity.GameStatus).GAME_FINISHED}">hra probíhá</span>
-                </td>
-            </tr>
-        </table>
-    </main>
-
-    <footer>
-        <div class="footer">
-            <p>Obrázky na pexeso: <a href="http://www.sarna.net/wiki/Main_Page" target="blank">BattleTechWiki</a>. Copyright: FASA, a potom spousta dalších.</p>
-        </div>
-    </footer>
+        <footer>
+            <div class="footer">
+                <p>Obrázky na pexeso: <a href="http://www.sarna.net/wiki/Main_Page" target="blank">BattleTechWiki</a>. Copyright: FASA, a potom spousta dalších.</p>
+            </div>
+        </footer>
+    </div>
     
 </body>
 </html>

@@ -11,39 +11,40 @@
     <title>Úkol10 - pexeso (bez databáze)</title>
 </head>
 <body>
-    <header>
-        <div class="header">
-            <h1><a href="index.html" th:href=".">Pexeso</a></h1>
+    <div class="page">
+        <div class="non_footer">
+            <header>
+                <div class="header">
+                    <h1><a href="index.html" th:href=".">Pexeso</a></h1>
+                </div>
+            </header>
+
+            <main>
+                <p>
+                    <a href="table.html" th:href="${'newtable.html'}">Začít novou hru</a>
+                </p>
+
+                <div class="tip">
+                    Tip z r. 2019: Pokud se vám hrací plocha nevejde na monitor, upravte zvětšení stránky v prohlížeči (na méně než 100 % - dle potřeby tak, aby se hrací pole 8x8 vešlo celé najednou na obrazovku)
+                </div>
+
+                <p>
+                    <a href="game-list.html">Seznam rozehraných her</a>
+                </p>
+
+                <p>
+                    <br>
+                    <a href="https://deli.tomcat.cloud/ukol10">Začít novou hru</a> (verze bez databáze)
+                </p>
+            </main>
         </div>
-    </header>
 
-    <main>
-        <p>
-            <a href="table.html" th:href="${'newtable.html'}">Začít novou hru</a>
-        </p>
-
-        <div class="tip">
-            Tip z r. 2019: Pokud se vám hrací plocha nevejde na monitor, upravte zvětšení stránky v prohlížeči (na méně než 100 % - dle potřeby tak, aby se hrací pole 8x8 vešlo celé najednou na obrazovku)
-        </div>
-
-        <p>
-            <a href="game-list.html">Seznam rozehraných her</a>
-        </p>
-
-        <p>
-            <br>
-            <a href="https://deli.tomcat.cloud/ukol10">Začít novou hru</a> (verze bez databáze)
-        </p>
-
-
-
-    </main>
-
-    <footer>
-        <div class="footer">
-            <p>Obrázky na pexeso: <a href="http://www.sarna.net/wiki/Main_Page" target="blank">BattleTechWiki</a>. Copyright: FASA, a potom spousta dalších.</p>
-        </div>
-    </footer>
+        <footer>
+            <div class="footer">
+                <p>Obrázky na pexeso: <a href="http://www.sarna.net/wiki/Main_Page" target="blank">BattleTechWiki</a>. Copyright: FASA, a potom spousta dalších.</p>
+            </div>
+        </footer>
+    </div>
     
 </body>
 </html>
